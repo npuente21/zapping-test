@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  db:
+      build:
+        context: .
+        dockerfile: Dockerfile-db
+
+      environment:
+        POSTGRES_DB: mydb
+        POSTGRES_USER: myuser
+        POSTGRES_PASSWORD: mypassword
+      ports:
+        - 5490:5432

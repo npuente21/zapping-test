@@ -6,6 +6,7 @@ router.get('/', (req, res) => {
 });
 
 router.use('/user', require('./userRoutes'));
+router.use('/public/videos', require('./streamRoute'));
 
 
 module.exports = router;

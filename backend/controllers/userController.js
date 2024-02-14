@@ -13,8 +13,10 @@ function passwordIsValid(password) {
 async function hashPassword(password) {
     
     try{
-        const salt = await bcrypt.genSalt(1000);
-        return await bcrypt.hash(password, salt);
+        console.log(password);
+        const saltRounds = 10;
+        const hash = await bcrypt.hash(password, saltRounds);
+        return hash;
     }
     catch(error){
         console.log(error);
@@ -32,17 +34,17 @@ const createUsers = async (req, res) => {
     const {first_name, last_name, email, password} = req.body;
     try{
         if (!passwordIsValid(password)) {
-            return res.status(400).json({ mensaje: 'La contraseña es insegura' });
+            return res.status(400).json('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número');
         }
         const passwordHash = await hashPassword(password);
         if (!passwordHash) {
-            return res.status(500).json({ mensaje: 'Error interno del servidor' });
+            return res.status(500).json('Error interno del servidor');
         }
         const response = await pool
             .query('INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)',
-            [first_name, last_name, email, password]);
+            [first_name, last_name, email, passwordHash]);
         if (response.rowCount === 0) {
-            return res.status(400).json({ mensaje: 'No se ha podido crear el usuario' });
+            return res.status(400).json('No se pudo agregar el usuario');
           }
         return res.json({
                         message: 'User added successfully',
@@ -52,11 +54,11 @@ const createUsers = async (req, res) => {
     });
     }catch(error){
         if (error.code === 'ECONNREFUSED') {
-            return res.status(500).json({ mensaje: 'Error de conexión a la base de datos' });
+            return res.status(500).json('Error de conexión a la base de datos');
           } else if (error.code === '23505') {
-            return res.status(409).json({ mensaje: 'Ya existe un usuario con ese correo electrónico' });
+            return res.status(409).json('Ya existe un usuario con ese email');
           } else {
-            return res.status(500).json({ mensaje: 'Error interno del servidor' });
+            return res.status(500).json('Error interno del servidor');
         }
     }
 

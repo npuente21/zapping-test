@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Provider } from 'react-redux';
 
-function App() {
+import UserSourceService from "./API/userService";
+import createStore from "./components/redux/store";
+
+import SignUpView from "./components/redux/containers/signup/SignUpView";
+import HomeView from "./components/redux/containers/home/homeView";
+import LoginView from "./components/redux/containers/login/loginView";
+
+const userService = UserSourceService({ baseUrl: 'http://localhost:8080' });
+const store = createStore(
+  {
+    userService
+  }
+
+);
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomeView/>} />
+          <Route path="/login" element={<LoginView/>} />
+          <Route path="/sign-up" element={<SignUpView/>} />
+    
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   );
 }
-
-export default App;

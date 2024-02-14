@@ -5,7 +5,6 @@ services:
       build:
         context: .
         dockerfile: Dockerfile-db
-
       environment:
         POSTGRES_DB: mydb
         POSTGRES_USER: myuser

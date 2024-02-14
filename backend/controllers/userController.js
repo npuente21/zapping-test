@@ -24,7 +24,7 @@ async function hashPassword(password) {
 }
 
 const getUsers = async (req, res) => {
-    const response = await pool.query('SELECT * FROM usuarios');
+    const response = await pool.query('SELECT * FROM users');
     return res.status(200).json(response.rows);
 }
 
@@ -39,7 +39,7 @@ const createUsers = async (req, res) => {
             return res.status(500).json({ mensaje: 'Error interno del servidor' });
         }
         const response = await pool
-            .query('INSERT INTO usuarios (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)',
+            .query('INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)',
             [first_name, last_name, email, password]);
         if (response.rowCount === 0) {
             return res.status(400).json({ mensaje: 'No se ha podido crear el usuario' });

@@ -61,13 +61,16 @@ const streamController = async (req, res) => {
     }
     res.status(200).send(m3u.toString());   
     if(endlist){
-        updateMediaSequence(0).then((result)=>{
-            if(result){
-                console.log('Media sequence restored to 0');
-            }
-        }).catch((error)=>{
-            console.log('Error updating media sequence');
-        });
+        setTimeout(()=>{
+            updateMediaSequence(0).then((result)=>{
+                if(result){
+                    console.log('Media sequence restored to 0');
+                }
+            }).catch(()=>{
+                console.log('Error updating media sequence');
+            });
+        }, 1000);
+        
     }
 }
 

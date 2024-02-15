@@ -7,7 +7,7 @@ import createStore from "./components/redux/store";
 import SignUpView from "./components/redux/containers/signup/SignUpView";
 import HomeView from "./components/redux/containers/home/homeView";
 import LoginView from "./components/redux/containers/login/loginView";
-import Navbar from "./components/layout/navbar";
+import Navbar from "./components/redux/containers/layout/navbar";
 import ProtectedRoute from "./components/redux/containers/protectedRoute";
 
 const userService = UserSourceService({ baseUrl: 'http://localhost:8080' });

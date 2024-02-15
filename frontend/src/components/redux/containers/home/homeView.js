@@ -5,8 +5,8 @@ import HomeView from '../../../home/homeView';
 const mapDispatchToProps = {}
 const mapStateToProps = (state) => {
     return {
-        error: state.user.error,
-        loading: state.user.loading,
+        error: state.user.errorProfile,
+        loading: state.user.loadingProfile,
         userData: state.user.userData,
         createdUser: state.user.createdUser,
 

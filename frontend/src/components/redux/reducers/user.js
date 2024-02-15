@@ -8,8 +8,14 @@ const defaultState = {
     userData: {},
     error: null,
     loading: false,
+
+    loadingCreateUser: false,
     createdUser: false,
+    errorCreateUser: null,
+
     authenticated: false,
+    loadingProfile: false,
+    errorProfile: null,
 };
 
 //reducer
@@ -82,8 +88,8 @@ function handleErrorLogoutUser(state, { payload }) {
 function handleLoadingCreateUser(state, action) {
     return {
         ...state,
-        loading: true,
-        error: null,
+        loadingCreateUser: true,
+        errorCreateUser: null,
         createdUser: false,
     };
 }
@@ -91,8 +97,9 @@ function handleLoadingCreateUser(state, action) {
 function handleSuccessCreateUser(state, _) {
     return {
         ...state,
-        loading: false,
+        loadingCreateUser: false,
         createdUser: true,
+        errorCreateUser: null,
     };
 
 }
@@ -100,22 +107,23 @@ function handleSuccessCreateUser(state, _) {
 function handleErrorCreateUser(state, { payload }) {
     return {
         ...state,
-        loading: false,
-        error: payload,
+        loadingCreateUser: false,
+        errorCreateUser: payload,
     };
 }
 
 function handleLoadingProfile(state, action) {
     return {
         ...state,
-        loading: true,
+        loadingProfile: true,
+        errorProfile: null,
     };
 }
 
 function handleSuccessProfile(state, { payload }) {
     return {
         ...state,
-        loading: false,
+        loadingProfile: false,
         userData: payload,
         authenticated: true,
     };
@@ -124,8 +132,8 @@ function handleSuccessProfile(state, { payload }) {
 function handleErrorProfile(state, { payload }) {
     return {
         ...state,
-        loading: false,
-        error: payload,
+        loadingProfile: false,
+        errorProfile: payload,
         authenticated: false,
     };
 }

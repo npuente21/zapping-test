@@ -1,11 +1,12 @@
 import React from 'react';
+import { Navigate } from 'react-router-dom';
 import { Alert, Button, Form, Input } from 'antd';
 
 
 export default function LoginView(props) {
     const {userData, login, error, loading} = props;
     if (Object.keys(userData).length > 0){
-        window.location.href = '/';
+        return <Navigate to="/" />;
     }
     const onFinish = (values) => {
         const {email, password} = values;
@@ -13,7 +14,7 @@ export default function LoginView(props) {
     };
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
             <Form
             name="basic"
             labelCol={{span: 8}}

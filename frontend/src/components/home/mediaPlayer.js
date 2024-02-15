@@ -20,10 +20,13 @@ function MediaPlayer() {
       const hls = new Hls({
         liveDurationInfinity: true,
         autoStartLoad: true,
+        xhrSetup: (xhr, url) => {
+          xhr.withCredentials = true;
+        }
         
       });
-
-      hls.loadSource('http://localhost:8080/public/videos/segment.m3u8');
+      
+      hls.loadSource('http://localhost:8080/public/videos/segment.m3u8',);
 
       hls.attachMedia(video);
 

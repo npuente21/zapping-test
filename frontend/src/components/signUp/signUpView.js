@@ -5,12 +5,11 @@ import { Alert, Button, Checkbox, Form, Input } from 'antd';
 export default function SignUpView(props) {
     const {createdUser, error, loading, createUser} = props;
     const onFinish = (values) => {
-        console.log('Success:', values);
         createUser(values.first_name, values.last_name, values.email, values.password);
     };
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
             <Form
             name="basic"
             labelCol={{span: 8}}

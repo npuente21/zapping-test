@@ -13,7 +13,6 @@ function passwordIsValid(password) {
 async function hashPassword(password) {
     
     try{
-        console.log(password);
         const saltRounds = 10;
         const hash = await bcrypt.hash(password, saltRounds);
         return hash;
@@ -28,6 +27,17 @@ async function hashPassword(password) {
 const getUsers = async (req, res) => {
     const response = await pool.query('SELECT * FROM users');
     return res.status(200).json(response.rows);
+}
+
+const getProfile = async (req, res) => {
+    try{
+        const {id} = req.user;
+        const response = await pool.query('SELECT first_name, last_name, email FROM users WHERE id = $1', [id]);
+        return res.status(200).json(response.rows[0]);
+    }catch(error){
+        return res.status(500).json('Error interno del servidor');
+    }  
+    
 }
 
 const createUsers = async (req, res) => {
@@ -66,5 +76,6 @@ const createUsers = async (req, res) => {
 
 module.exports ={
     getUsers,
-    createUsers
+    createUsers,
+    getProfile
 }

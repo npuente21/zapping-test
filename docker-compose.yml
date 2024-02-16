@@ -11,3 +11,32 @@ services:
         POSTGRES_PASSWORD: mypassword
       ports:
         - 5490:5432
+  backend:
+      build:
+        context: ./backend
+        dockerfile: Dockerfile
+      environment:
+        SECRET_KEY: FSDJHASQ34_3212DSA
+        PORT: 8080
+        POSTGRES_DB: mydb
+        POSTGRES_USER: myuser
+        POSTGRES_PASSWORD: mypassword
+        POSTGRES_PORT: 5432
+        POSTGRES_HOST: db
+        FRONTEND_URL: http://localhost:3000
+      ports:
+        - 8080:8080
+      depends_on:
+        - db
+  
+  frontend:
+      build:
+        context: ./frontend
+        dockerfile: Dockerfile
+      environment:
+        PORT: 3000
+        REACT_APP_API_URL: http://localhost:8080
+      ports:
+        - 3000:3000
+      depends_on:
+        - backend

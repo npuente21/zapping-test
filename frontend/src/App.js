@@ -10,7 +10,7 @@ import LoginView from "./components/redux/containers/login/loginView";
 import Navbar from "./components/redux/containers/layout/navbar";
 import ProtectedRoute from "./components/redux/containers/protectedRoute";
 
-const userService = UserSourceService({ baseUrl: 'http://localhost:8080' });
+const userService = UserSourceService({ baseUrl: process.env.REACT_APP_API_URL });
 const store = createStore(
   {
     userService

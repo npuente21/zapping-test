@@ -24,7 +24,7 @@ function MediaPlayer() {
             
           });
           
-          hls.loadSource('http://localhost:8080/public/videos/segment.m3u8',);
+          hls.loadSource(`${process.env.REACT_APP_API_URL}/public/videos/segment.m3u8`);
     
           hls.attachMedia(video);    
           setHlsPlayer(hls);

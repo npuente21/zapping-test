@@ -15,9 +15,9 @@ const login = async (req, res) => {
 
         if(!validPassword) return res.status(401).json('Contraseña incorrecta');
         const token = jwt.sign({id: user.rows[0].id}, process.env.SECRET_KEY, {
-            expiresIn: '1 hr',
+            expiresIn: '24 hr',
         });
-        res.cookie('accessToken', token, {httpOnly: true, maxAge: 60 * 60 * 1000});
+        res.cookie('accessToken', token, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000});
         const {first_name, last_name} = user.rows[0];
         return res.status(200).json({ first_name, last_name, email});
     }catch(error){

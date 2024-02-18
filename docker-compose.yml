@@ -24,6 +24,7 @@ services:
         POSTGRES_PORT: 5432
         POSTGRES_HOST: db
         FRONTEND_URL: http://localhost:3000
+        TZ: UTC
       ports:
         - 8080:8080
       depends_on:

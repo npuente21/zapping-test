@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from 'react-redux';
 
 import UserSourceService from "./API/userService";
+import StreamSourceService from "./API/streamService";
 import createStore from "./components/redux/store";
 
 import SignUpView from "./components/redux/containers/signup/SignUpView";
@@ -11,9 +12,11 @@ import Navbar from "./components/redux/containers/layout/navbar";
 import ProtectedRoute from "./components/redux/containers/protectedRoute";
 
 const userService = UserSourceService({ baseUrl: process.env.REACT_APP_API_URL });
+const streamService = StreamSourceService({ baseUrl: process.env.REACT_APP_API_URL });
 const store = createStore(
   {
-    userService
+    userService,
+    streamService,
   }
 
 );

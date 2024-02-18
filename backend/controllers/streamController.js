@@ -25,7 +25,11 @@ const getMediaSequence = async ()=>{
 };
 
 const updateMediaSequence = async (mediaSequence)=>{
-    const query = `UPDATE streams SET media_sequence = ${mediaSequence} WHERE id = 1;`;
+    let updateQuery = `media_sequence = ${mediaSequence}`
+    if(mediaSequence === 0){
+        updateQuery += `, started_time = CURRENT_TIMESTAMP`;
+    }   
+    const query = `UPDATE streams SET ${updateQuery} WHERE id = 1;`;
     const result = await pool.query(query);
     if(result.rowCount === 0) return false;
     else return true;
@@ -69,9 +73,36 @@ const streamController = async (req, res) => {
             }).catch(()=>{
                 console.log('Error updating media sequence');
             });
-        }, 1000);
+        }, 1000*25);
         
     }
 }
 
-module.exports = {streamController};
+const createStream = async () => {
+    try{
+        const query = `INSERT INTO streams (id, title, description, media_sequence, manifiest_url)
+        VALUES (1, 'El oso', 'En este stream se puede apreciar el camino del héroe del oso', 0,
+        'http://localhost:8080/public/videos/segment.m3u8') ON CONFLICT (id) DO UPDATE SET started_time = CURRENT_TIMESTAMP, media_sequence= 0;`;
+        const result = await pool.query(query);
+        if(result.rowCount === 0) return false;
+        else return true;
+    }catch(error){
+        console.log(1,error);
+        return false;
+    }
+
+}
+
+const getStreamData = async (req, res) => {
+    const id = req.params.id;
+    const query = `SELECT * FROM streams WHERE id = ${id};`;
+    const result = await pool.query(query);
+    if(result.rowCount === 0){
+        res.status(404).send('Stream not found');
+    }
+    else{
+        res.status(200).send(result.rows[0]);
+    }
+}
+
+module.exports = {streamController, createStream, getStreamData};

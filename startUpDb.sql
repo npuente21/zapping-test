@@ -7,11 +7,10 @@ CREATE TABLE Users (
 );
 
 CREATE TABLE Streams (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT,
     media_sequence INTEGER,
-    segments INTEGER
+    started_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    manifiest_url VARCHAR(255)
 );
-
-INSERT INTO Streams (title, description, media_sequence, segments) VALUES ('El oso', 'En este stream se puede apreciar el camino del héroe del oso', 0, 0);

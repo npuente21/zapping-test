@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Hls from 'hls.js';
-import { Alert } from 'antd';
+import { Alert, Typography } from 'antd';
 
+import Timer from './timer';
 import './media.css';
-function MediaPlayer() {
+function MediaPlayer(props) {
+  const {streamData} = props;
+
   const [hlsPlayer, setHlsPlayer] = useState(null);
   const [end, setEnd] = useState(false);
   
@@ -14,7 +17,7 @@ function MediaPlayer() {
         console.error('No video element found');
         return;
       }
-      if (Hls.isSupported()) {
+      if (Hls.isSupported() && streamData.manifiest_url) {
           const hls = new Hls({
             liveDurationInfinity: true,
             autoStartLoad: true,
@@ -24,9 +27,15 @@ function MediaPlayer() {
             
           });
           
-          hls.loadSource(`${process.env.REACT_APP_API_URL}/public/videos/segment.m3u8`);
+          hls.loadSource(streamData.manifiest_url);
     
-          hls.attachMedia(video);    
+          hls.attachMedia(video);
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            console.log('manifest loaded, found ' + hls.levels.length + ' quality level')
+            video.currentTime = ( new(Date) - new(Date(streamData.started_time)) ) /1000
+            video.play();
+          }
+          );    
           setHlsPlayer(hls);
         
       } else {
@@ -51,14 +60,20 @@ function MediaPlayer() {
       }   
     }
   }
-  , []);
+  , [streamData.manifiest_url]);
 
  
 
   return (
     <div>
-      <h1>Streaming</h1>
+      <Typography.Title level={1}>{streamData.title}</Typography.Title>
       <video id='video' autoPlay={true} controls style={{maxWidth:1000, maxHeight:1500}}/>
+      <div style={{display: 'flex', flexDirection: 'row'}}>
+      <Timer startedTime ={streamData.started_time} stop={end}/>
+      <p style={{marginLeft: 30}}>{streamData.description}</p>
+      </div>
+      
+      
       {end && <Alert closable message="El streaming ha terminado!!" type="success" style={{fontSize:30}} showIcon />}
     </div>
   );

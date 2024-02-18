@@ -26,7 +26,7 @@ export default function UserSourceService({ baseUrl }) {
     async function getProfile() {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        const response = await fetch(`${baseUrl}${USER_PATH}/profile`, {method: 'GET', headers: headers, credentials: 'include'})
+        const response = await fetch(`${baseUrl}${USER_PATH}/profile/`, {method: 'GET', headers: headers, credentials: 'include'})
         if(response.status === 200){
           return await response.json();
         }

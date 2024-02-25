@@ -2,7 +2,7 @@
 
 Este proyecto fue realizado utilizando React + Redux + Ant Design para el Frontend, mientras que se utilizo ExpressJs en el Backend.
 
-Antes de cualquier cosa, es necesario dejar los `.ts` dentro de la carpeta `/backend/public/videos`.
+Antes de cualquier cosa, es necesario dejar los segmentos de video `.ts` dentro de la carpeta `/backend/public/videos`.
 
 Una vez listo, simplemente ejecute el comando:
 

@@ -35,8 +35,15 @@ const updateMediaSequence = async (mediaSequence)=>{
     else return true;
 }
 
+const createdStream = async () => {
+    const query = `SELECT COUNT(*) FROM streams WHERE id = 1;`;
+    const result = (await pool.query(query)).rows[0].count;
+    return result;
+}
+
 setInterval(async () => {
     try{
+        if (await createdStream() === 0) return false;
         let mediaSequence = await getMediaSequence();
         const segmentCount = countSegments();
         if(segmentCount > mediaSequence){

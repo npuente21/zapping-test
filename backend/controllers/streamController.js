@@ -36,12 +36,17 @@ const updateMediaSequence = async (mediaSequence)=>{
 }
 
 setInterval(async () => {
-    let mediaSequence = await getMediaSequence();
-    const segmentCount = countSegments();
-    if(segmentCount > mediaSequence){
-        mediaSequence +=1;
-        await updateMediaSequence(mediaSequence);
+    try{
+        let mediaSequence = await getMediaSequence();
+        const segmentCount = countSegments();
+        if(segmentCount > mediaSequence){
+            mediaSequence +=1;
+            await updateMediaSequence(mediaSequence);
+        }
+    }catch(error){
+        console.log('Error actualizando el media sequence', error);
     }
+    
 }, 1000 * SEGMENT_DURATION);
 
 const streamController = async (req, res) => {

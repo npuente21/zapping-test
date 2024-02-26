@@ -43,13 +43,21 @@ const createdStream = async () => {
 
 setInterval(async () => {
     try{
-        if (await createdStream() === 0) return false;
-        let mediaSequence = await getMediaSequence();
-        const segmentCount = countSegments();
-        if(segmentCount > mediaSequence){
-            mediaSequence +=1;
-            await updateMediaSequence(mediaSequence);
+        if (await createdStream() === '0'){
+            const createdStream = await createStream();
+            if(createdStream){
+                console.log('Stream created inside interval');
+            }
+        
+        }else{
+            let mediaSequence = await getMediaSequence();
+            const segmentCount = countSegments();
+            if(segmentCount > mediaSequence){
+                mediaSequence +=1;
+                await updateMediaSequence(mediaSequence);
+            }
         }
+        
     }catch(error){
         console.log('Error actualizando el media sequence', error);
     }

@@ -25,6 +25,6 @@ app.use(router);
 
 app.listen(PORT);
 
-createStream().then(()=>console.log('Stream created')).catch((err)=>console.log(err));
+createStream().then((response)=> response ? console.log("Stream created") : console.log("Error")).catch((err)=>console.log(err));
 
 console.log(`Server running son port ${PORT}`);

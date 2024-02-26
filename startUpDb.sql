@@ -14,6 +14,3 @@ CREATE TABLE Streams (
     started_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     manifiest_url VARCHAR(255)
 );
-INSERT INTO Streams (id, title, description, media_sequence, manifiest_url)
-        VALUES (1, 'El oso', 'En este stream se puede apreciar el camino del héroe del oso', 0,
-        'http://localhost:8080/public/videos/segment.m3u8')

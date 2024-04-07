@@ -11,6 +11,7 @@ FROM alpine:latest
 WORKDIR /app
 
 COPY --from=builder /app/main .
+COPY --from=builder /app/videos ./videos
 
 EXPOSE 8081
 

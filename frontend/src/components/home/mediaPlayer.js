@@ -32,8 +32,6 @@ function MediaPlayer(props) {
           hls.attachMedia(video);
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
             console.log('manifest loaded, found ' + hls.levels.length + ' quality level')
-            video.currentTime = ( (new Date()) - (new Date(streamData.started_time)) ) /1000
-            video.play();
           }
           );    
           setHlsPlayer(hls);

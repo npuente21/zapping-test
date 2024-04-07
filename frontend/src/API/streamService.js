@@ -1,5 +1,5 @@
 export default function StreamSourceService({ baseUrl }) {
-    const STREAM_PATH = '/public/videos';
+    const STREAM_PATH = '/video';
   
     return {
         getStreamData,

@@ -102,7 +102,7 @@ const createStream = async () => {
     try{
         const query = `INSERT INTO streams (id, title, description, media_sequence, manifiest_url)
         VALUES (1, 'El oso', 'En este stream se puede apreciar el camino del héroe del oso', 0,
-        'http://localhost:8080/public/videos/segment.m3u8') ON CONFLICT (id) DO UPDATE SET started_time = CURRENT_TIMESTAMP, media_sequence= 0;`;
+        'http://localhost:8081/segment.m3u8') ON CONFLICT (id) DO UPDATE SET started_time = CURRENT_TIMESTAMP, media_sequence= 0;`;
         const result = await pool.query(query);
         if(result.rowCount === 0) return false;
         else return true;

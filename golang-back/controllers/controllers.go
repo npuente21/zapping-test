@@ -48,10 +48,9 @@ func updateMediaSequence(streamID int16, mediaSequence int16) {
 
 func UpdateStream(streamID int16) {
 
-	ticker := time.NewTicker(2 * time.Second)
+	ticker := time.NewTicker(10 * time.Second)
 	defer func() {
 		ticker.Stop()
-		fmt.Println("terminé", getMediaSequence(streamID))
 	}()
 	for {
 		select {
@@ -65,26 +64,31 @@ func UpdateStream(streamID int16) {
 func GetStreamInfo(c *gin.Context) {
 	db := dbConfig.ConnectDB()
 	defer db.Close()
-
+	id := c.Param("id")
 	var stream Stream
-	err := db.QueryRow("SELECT * FROM streams WHERE id = 1").Scan(&stream.ID, &stream.Title, &stream.Description, &stream.Media_sequence, &stream.ManifiestURL, &stream.StartedTime)
+	err := db.QueryRow("SELECT * FROM streams WHERE id = $1", id).Scan(&stream.ID, &stream.Title, &stream.Description, &stream.Media_sequence, &stream.StartedTime, &stream.ManifiestURL)
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(stream)
 	c.IndentedJSON(200, stream)
 }
 
 func GetMediaPlaylist(c *gin.Context) {
+	mediaSequence := getMediaSequence(1)
 	var buffer bytes.Buffer
 	buffer.WriteString("#EXTM3U\n")
 	buffer.WriteString("#EXT-X-VERSION:3\n")
 	buffer.WriteString("#EXT-X-TARGETDURATION:10\n")
-	buffer.WriteString("#EXT-X-MEDIA-SEQUENCE:0\n")
+	buffer.WriteString(fmt.Sprintf("#EXT-X-MEDIA-SEQUENCE:%d\n", mediaSequence))
 
 	for i := 0; i < 3; i++ {
+		segment_number := (mediaSequence + int16(i)) % cant_segments
+		if segment_number == 0 && mediaSequence+int16(i) != 0 {
+			buffer.WriteString("#EXT-X-DISCONTINUITY\n")
+		}
 		buffer.WriteString("#EXTINF:10.0,\n")
-		buffer.WriteString(fmt.Sprintf("videos/segment%d.ts\n", i))
+		buffer.WriteString(fmt.Sprintf("/videos/segment%d.ts\n", segment_number))
+
 	}
 	c.Data(200, "application/vnd.apple.mpegurl", buffer.Bytes())
 }

@@ -12,7 +12,7 @@ import Navbar from "./components/redux/containers/layout/navbar";
 import ProtectedRoute from "./components/redux/containers/protectedRoute";
 
 const userService = UserSourceService({ baseUrl: process.env.REACT_APP_API_URL });
-const streamService = StreamSourceService({ baseUrl: process.env.REACT_APP_API_URL });
+const streamService = StreamSourceService({ baseUrl: process.env.REACT_APP_GO_API_URL });
 const store = createStore(
   {
     userService,

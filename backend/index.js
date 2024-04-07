@@ -19,7 +19,6 @@ app.use(cors(
         credentials: true,
     }
 ));
-app.use('/public/videos', express.static('public/videos'));
 
 app.use(router);
 

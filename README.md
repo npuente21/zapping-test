@@ -1,10 +1,10 @@
 # Prueba técnica Zapping
 
-Este proyecto fue realizado utilizando React + Redux + Ant Design para el Frontend, mientras que se utilizo ExpressJs en el Backend.
+Este proyecto fue realizado utilizando React + Redux + Ant Design para el Frontend, mientras que se utilizo ExpressJs para el servicio de Usuarios y Go-Gin para el servicio de Streaming.
 
-Antes de cualquier cosa, es necesario dejar los segmentos de video `.ts` dentro de la carpeta `/backend/public/videos`.
+Antes de cualquier cosa, es necesario dejar los segmentos de video `.ts` dentro de la carpeta `/golang-back/videos/`.
 
-Una vez listo, simplemente ejecute el comando:
+Una vez copiados los segmentos, ejecute el comando:
 
 ```
 docker-compose up -d --build
@@ -22,6 +22,8 @@ La vista protegida redirecciona al `login` en caso de no tener credenciales, por
 
 Una vez se termina el stream, este se reinicia al cabo de un rato, por lo que solo necesitaría refrescar la página ante cualquier problema.
 
-De igual forma el backend se encuentra el `http://localhost:8080` y se dejó un endpoint para revisar todos los usuarios registrados `http://localhost:8080/user`.
+De igual forma el servicio de ususarios se encuentra el `http://localhost:8080` y se dejó un endpoint para revisar todos los usuarios registrados `http://localhost:8080/user`.
+
+Por otro lado, el servicio de streaming se encuentra el `http://localhost:8081`.
 
 Si planea correr este proyecto por su cuenta tenga en consideración que el manejo de la sesión se realizó utilizando cookies, por lo que `http://127.0.0.1:3000` no será capaz de leer la cookie. Además, algunos navegadores como Safari suelen necesitar configuración para poder setear cookies.
